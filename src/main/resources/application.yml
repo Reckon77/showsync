@@ -1,0 +1,12 @@
+server:
+  port: 3000
+spring:
+  application:
+    name: showsync
+  datasource:
+    password:
+    url: jdbc:mysql://localhost:3306/showsync
+    username:
+  jpa:
+    hibernate:
+      ddl-auto: update
