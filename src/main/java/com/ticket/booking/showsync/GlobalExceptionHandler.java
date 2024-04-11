@@ -6,6 +6,8 @@ import com.ticket.booking.showsync.exceptions.ExistingUserException;
 import com.ticket.booking.showsync.exceptions.RegistrationFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -30,6 +32,17 @@ public class GlobalExceptionHandler {
                         .error(ex.getMessage())
                         .code(HttpStatus.SERVICE_UNAVAILABLE.value())
                         .httpStatus(HttpStatus.SERVICE_UNAVAILABLE)
+                        .build()
+        );
+    }
+
+    @ExceptionHandler({BadCredentialsException.class, AuthenticationException.class})
+    public ResponseEntity<ErrorResponseDTO> handleException(AuthenticationException ex){
+        return ResponseEntity.status(401).body(
+                ErrorResponseDTO.builder()
+                        .error(ex.getMessage())
+                        .code(HttpStatus.UNAUTHORIZED.value())
+                        .httpStatus(HttpStatus.UNAUTHORIZED)
                         .build()
         );
     }

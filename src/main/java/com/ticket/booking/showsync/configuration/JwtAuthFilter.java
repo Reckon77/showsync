@@ -1,5 +1,7 @@
 package com.ticket.booking.showsync.configuration;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +31,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
              final String authHeader = request.getHeader("Authorization");
              final String jwt;
-             final String userName;
+             String userName=null;
 
              if(authHeader==null || !authHeader.startsWith("Bearer")){
                  filterChain.doFilter(request,response);
@@ -37,7 +39,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
              }
 
              jwt = authHeader.substring(7);
-             userName = jwtService.extractUserName(jwt);
+             try{
+                 userName = jwtService.extractUserName(jwt);
+             }catch (IllegalArgumentException e) {
+                 logger.info("Illegal Argument while fetching the username !!");
+                 e.printStackTrace();
+             } catch (ExpiredJwtException e) {
+                 logger.info("Given jwt token is expired !!");
+                 e.printStackTrace();
+             } catch (MalformedJwtException e) {
+                 logger.info("Some changed has done in token !! Invalid Token");
+                 e.printStackTrace();
+             } catch (Exception e) {
+                 e.printStackTrace();
+
+             }
+
 
              if(userName!=null && SecurityContextHolder.getContext().getAuthentication()==null){
                  UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);

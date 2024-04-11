@@ -1,5 +1,7 @@
 package com.ticket.booking.showsync.controller;
 
+import com.ticket.booking.showsync.dto.JwtRequest;
+import com.ticket.booking.showsync.dto.JwtResponse;
 import com.ticket.booking.showsync.dto.UserDTO;
 import com.ticket.booking.showsync.service.UserService;
 import jakarta.validation.Valid;
@@ -19,5 +21,10 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserDTO user) {
         return userService.registerUser(user);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest jwtRequest){
+        return userService.login(jwtRequest);
     }
 }
