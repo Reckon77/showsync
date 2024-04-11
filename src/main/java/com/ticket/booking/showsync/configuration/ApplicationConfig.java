@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -17,5 +19,10 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService(){
        return username -> userRepository.findByUserName(username).orElseThrow(()-> new UsernameNotFoundException("USER NOT FOUND"));
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception {
+        return builder.getAuthenticationManager();
     }
 }
