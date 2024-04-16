@@ -25,7 +25,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -37,40 +37,9 @@ public class User implements UserDetails {
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
     private String location;
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String role;
     @NotNull(message = "Date of birth is required")
     @Past(message = "Date of birth must be in the past")
     private Date dateOfBirth;
 
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getUsername() {
-        return this.userName;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

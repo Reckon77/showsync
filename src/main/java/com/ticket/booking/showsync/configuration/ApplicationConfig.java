@@ -11,18 +11,18 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-@Configuration
-@RequiredArgsConstructor
-public class ApplicationConfig {
-
-    private final UserRepository userRepository;
-    @Bean
-    public UserDetailsService userDetailsService(){
-       return username -> userRepository.findByUserName(username).orElseThrow(()-> new UsernameNotFoundException("USER NOT FOUND"));
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception {
-        return builder.getAuthenticationManager();
-    }
-}
+//@Configuration
+//@RequiredArgsConstructor
+//public class ApplicationConfig {
+//
+//    private final UserRepository userRepository;
+//    @Bean
+//    public UserDetailsService userDetailsService(){
+//       return username -> userRepository.findByUserName(username).orElseThrow(()-> new UsernameNotFoundException("USER NOT FOUND"));
+//    }
+//
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception {
+//        return builder.getAuthenticationManager();
+//    }
+//}

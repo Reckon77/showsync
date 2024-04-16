@@ -15,8 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -61,30 +63,44 @@ public class UserService {
     }
 
 
-    public ResponseEntity<JwtResponse> login(JwtRequest request) {
-
-        this.doAuthenticate(request.getUserName(), request.getPassword());
-
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUserName());
-        String token = this.helper.generateToken(userDetails);
-
-        JwtResponse response = JwtResponse.builder()
+//    public ResponseEntity<JwtResponse> login(JwtRequest request) {
+//
+//        this.doAuthenticate(request.getUserName(), request.getPassword());
+//
+//
+//        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUserName());
+//        String token = this.helper.generateToken(userDetails);
+//
+//        JwtResponse response = JwtResponse.builder()
+//                .jwtToken(token)
+//                .userName(userDetails.getUsername()).build();
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
+//
+//    private void doAuthenticate(String email, String password) {
+//
+//        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, password);
+//        try {
+//            manager.authenticate(authentication);
+//
+//
+//        } catch (BadCredentialsException e) {
+//            throw new BadCredentialsException(" Invalid Username or Password  !!");
+//        }
+//
+//    }
+public ResponseEntity<JwtResponse> login(JwtRequest request){
+    Authentication authentication = manager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
+    if (authentication.isAuthenticated()) {
+        //return jwtService.generateToken(authRequest.getUsername());
+        String token = helper.generateToken(request.getUserName());
+                JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
-                .userName(userDetails.getUsername()).build();
+                .userName(request.getUserName()).build();
         return new ResponseEntity<>(response, HttpStatus.OK);
+
+    } else {
+        throw new UsernameNotFoundException("invalid user request !");
     }
-
-    private void doAuthenticate(String email, String password) {
-
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, password);
-        try {
-            manager.authenticate(authentication);
-
-
-        } catch (BadCredentialsException e) {
-            throw new BadCredentialsException(" Invalid Username or Password  !!");
-        }
-
-    }
+}
 }
