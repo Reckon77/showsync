@@ -1,4 +1,4 @@
-package com.ticket.booking.showsync.configuration;
+package com.ticket.booking.showsync.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ticket.booking.showsync.dto.ErrorResponseDTO;
@@ -11,15 +11,12 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//        PrintWriter writer = response.getWriter();
-//        writer.println("Access Denied !! " + authException.getMessage());
         response.setContentType("application/json");
 
         ErrorResponseDTO errorResponse = ErrorResponseDTO.builder()
