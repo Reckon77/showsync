@@ -10,12 +10,14 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler({ExistingUserException.class,
             MethodArgumentNotValidException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErrorResponseDTO> handleException(Exception ex){
         return ResponseEntity.badRequest().body(
                 ErrorResponseDTO.builder()
@@ -26,6 +28,7 @@ public class GlobalExceptionHandler {
         );
     }
     @ExceptionHandler(RegistrationFailedException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
     public ResponseEntity<ErrorResponseDTO> handleException(RegistrationFailedException ex){
         return ResponseEntity.badRequest().body(
                 ErrorResponseDTO.builder()
@@ -37,6 +40,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({BadCredentialsException.class, AuthenticationException.class})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<ErrorResponseDTO> handleException(AuthenticationException ex){
         return ResponseEntity.status(401).body(
                 ErrorResponseDTO.builder()
