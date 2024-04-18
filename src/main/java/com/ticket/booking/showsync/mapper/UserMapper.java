@@ -6,12 +6,11 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper {
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+public abstract class UserMapper {
 
     @Mapping(target = "userId", ignore = true) // Ignore userId as it's auto-generated
     @Mapping(target = "dateOfBirth", source = "dto.dateOfBirth")
-    User userDTOToUser(UserDTO dto);
+    public abstract User userDTOToUser(UserDTO dto);
 
     //UserDTO userToUserDTO(User user);
 }
