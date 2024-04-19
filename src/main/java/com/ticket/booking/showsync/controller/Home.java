@@ -24,5 +24,4 @@ public class Home {
         return "Super Admin message";
     }
 
-
 }

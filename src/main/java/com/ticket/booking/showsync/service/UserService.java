@@ -1,6 +1,7 @@
 package com.ticket.booking.showsync.service;
 
 import com.ticket.booking.showsync.config.JwtService;
+import com.ticket.booking.showsync.dto.CustomResponseDTO;
 import com.ticket.booking.showsync.dto.JwtRequest;
 import com.ticket.booking.showsync.dto.JwtResponse;
 import com.ticket.booking.showsync.dto.UserDTO;
@@ -19,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -71,5 +73,25 @@ public class UserService {
         } else {
             throw new UsernameNotFoundException("Invalid user request !");
         }
+    }
+
+    public ResponseEntity<CustomResponseDTO> deleteUser(String userName) {
+        Optional<User> user = userRepository.findByUserName(userName);
+        if (user.isPresent()) {
+            User userObj = user.get();
+            userRepository.delete(userObj);
+            CustomResponseDTO customResponseDTO = CustomResponseDTO.builder()
+                    .message(userName + " deleted successfully!")
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .build();
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.OK);
+        }
+        CustomResponseDTO customResponseDTO = CustomResponseDTO.builder()
+                .message(userName + " not found!")
+                .code(HttpStatus.NOT_FOUND.value())
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .build();
+        return new ResponseEntity<>(customResponseDTO, HttpStatus.NOT_FOUND);
     }
 }
