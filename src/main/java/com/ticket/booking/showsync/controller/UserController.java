@@ -7,7 +7,6 @@ import com.ticket.booking.showsync.dto.UserDTO;
 import com.ticket.booking.showsync.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +36,10 @@ public class UserController {
     @DeleteMapping("/deleteUser")
     public ResponseEntity<CustomResponseDTO> deleteUser(@RequestParam("userName") String userName) {
         return userService.deleteUser(userName);
+    }
+
+    @PutMapping("/updateUser")
+    public ResponseEntity<CustomResponseDTO> updateUser(@RequestParam("id") Long id, @RequestBody UserDTO userDTO) {
+        return userService.updateUser(id, userDTO);
     }
 }

@@ -12,6 +12,5 @@ public interface UserMapper {
     @Mapping(target = "userId", ignore = true) // Ignore userId as it's auto-generated
     @Mapping(target = "dateOfBirth", source = "dto.dateOfBirth")
     User userDTOToUser(UserDTO dto);
-
-    //UserDTO userToUserDTO(User user);
+    UserDTO userToUserDTO(User user);
 }

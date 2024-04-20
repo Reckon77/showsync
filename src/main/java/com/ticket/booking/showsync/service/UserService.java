@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -35,7 +36,6 @@ public class UserService {
 
     @Autowired
     private AuthenticationManager manager;
-
 
     @Autowired
     private JwtService helper;
@@ -60,7 +60,6 @@ public class UserService {
 
     }
 
-
     public ResponseEntity<JwtResponse> login(JwtRequest request) {
         Authentication authentication = manager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
         if (authentication.isAuthenticated()) {
@@ -79,6 +78,9 @@ public class UserService {
         Optional<User> user = userRepository.findByUserName(userName);
         if (user.isPresent()) {
             User userObj = user.get();
+            if(userObj.getRole().equals("ADMIN")) {
+                throw new BadCredentialsException("Not authorized to delete " + userName);
+            }
             userRepository.delete(userObj);
             CustomResponseDTO customResponseDTO = CustomResponseDTO.builder()
                     .message(userName + " deleted successfully!")
@@ -93,5 +95,27 @@ public class UserService {
                 .httpStatus(HttpStatus.NOT_FOUND)
                 .build();
         return new ResponseEntity<>(customResponseDTO, HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity<CustomResponseDTO> updateUser(Long id, UserDTO userDTO) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            User userObj = user.get();
+            userObj.setFirstName(userDTO.getFirstName());
+            userObj.setLastName(userDTO.getLastName());
+            userObj.setPassword(userDTO.getPassword());
+            userObj.setUserName(userDTO.getUserName());
+            userObj.setLocation(userDTO.getLocation());
+            userObj.setDateOfBirth(userDTO.getDateOfBirth());
+            userRepository.save(userObj);
+            CustomResponseDTO customResponseDTO = CustomResponseDTO.builder()
+                    .message("User updated successfully!")
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .build();
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.OK);
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
     }
 }
