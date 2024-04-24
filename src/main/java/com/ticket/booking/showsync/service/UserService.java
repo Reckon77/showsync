@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -53,7 +52,7 @@ public class UserService {
         User userObj = UserMapper.INSTANCE.userDTOToUser(user);
         userObj = userRepository.save(userObj);
         if (userObj.getUserId() > 0) {
-            return ResponseEntity.ok().body(user);
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
         } else {
             throw new RegistrationFailedException("Failed to create user");
         }
@@ -78,9 +77,6 @@ public class UserService {
         Optional<User> user = userRepository.findByUserName(userName);
         if (user.isPresent()) {
             User userObj = user.get();
-            if(userObj.getRole().equals("ADMIN")) {
-                throw new BadCredentialsException("Not authorized to delete " + userName);
-            }
             userRepository.delete(userObj);
             CustomResponseDTO customResponseDTO = CustomResponseDTO.builder()
                     .message(userName + " deleted successfully!")

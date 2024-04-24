@@ -8,7 +8,8 @@ import com.ticket.booking.showsync.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,14 +33,21 @@ public class UserController {
         return userService.login(jwtRequest);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @DeleteMapping("/deleteUser")
-    public ResponseEntity<CustomResponseDTO> deleteUser(@RequestParam("userName") String userName) {
-        return userService.deleteUser(userName);
+    @DeleteMapping("/deleteUser/{userName}")
+    public ResponseEntity<CustomResponseDTO> deleteUser(@PathVariable String userName, Authentication authentication) {
+        String user = authentication.getName();
+        if(user.equals(userName)) {
+            return userService.deleteUser(userName);
+        }
+        throw new BadCredentialsException("Unauthorized to delete " + userName);
     }
 
-    @PutMapping("/updateUser")
-    public ResponseEntity<CustomResponseDTO> updateUser(@RequestParam("id") Long id, @RequestBody UserDTO userDTO) {
-        return userService.updateUser(id, userDTO);
+    @PutMapping("/updateUser/{id}")
+    public ResponseEntity<CustomResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO, Authentication authentication) {
+        String user = authentication.getName();
+        if(user.equals(userDTO.getUserName())) {
+            return userService.updateUser(id, userDTO);
+        }
+        throw new BadCredentialsException("Unauthorized to update " + user);
     }
 }
