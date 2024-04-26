@@ -49,7 +49,8 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User userObj = userMapper.userDTOToUser(user);
         userObj = userRepository.save(userObj);
-        if (userObj.getUserId() > 0) {
+        user.setPassword(null);
+        if (userObj.getUserId() != null) {
             return ResponseEntity.ok().body(user);
         } else {
             throw new RegistrationFailedException("Failed to create user");

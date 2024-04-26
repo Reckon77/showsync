@@ -20,8 +20,8 @@ import java.sql.Date;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String userId;
     private String firstName;
     private String lastName;
     @NotBlank(message = "Username is required")
