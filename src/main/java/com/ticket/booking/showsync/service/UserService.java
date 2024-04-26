@@ -42,7 +42,6 @@ public class UserService {
     @Autowired
     private JwtService helper;
 
-
     public ResponseEntity<UserDTO> registerUser(UserDTO user) {
         if (userRepository.findByUserName(user.getUserName()).isPresent()) {
             throw new ExistingUserException("Username : " + user.getUserName() + " already exist");
@@ -98,7 +97,7 @@ public class UserService {
             User userObj = user.get();
             userObj.setFirstName(userDTO.getFirstName());
             userObj.setLastName(userDTO.getLastName());
-            userObj.setPassword(userDTO.getPassword());
+            userObj.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             userObj.setUserName(userDTO.getUserName());
             userObj.setLocation(userDTO.getLocation());
             userObj.setDateOfBirth(userDTO.getDateOfBirth());
