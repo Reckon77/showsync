@@ -10,8 +10,8 @@ public abstract class UserMapper {
 
     @Mapping(target = "userId", ignore = true) // Ignore userId as it's auto-generated
     @Mapping(target = "dateOfBirth", source = "dto.dateOfBirth")
+//    User userDTOToUser(UserDTO dto);
+    public abstract User userDTOToUser(UserDTO dto);
+    public abstract UserDTO userToUserDTO(User user);
 
-    User userDTOToUser(UserDTO dto);
-    UserDTO userToUserDTO(User user);
-//     public abstract User userDTOToUser(UserDTO dto);
 }
