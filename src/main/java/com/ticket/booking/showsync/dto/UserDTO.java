@@ -1,5 +1,6 @@
 package com.ticket.booking.showsync.dto;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
@@ -21,6 +22,7 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     @NotBlank(message = "Username is required")
+    @Column(unique = true)
     private String userName;
     @NotBlank(message = "Password is required")
     @Size(min = 8, message = "Password must be at least 8 characters long")

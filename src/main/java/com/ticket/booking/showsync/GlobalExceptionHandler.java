@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RegistrationFailedException.class)
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
     public ResponseEntity<ErrorResponseDTO> handleException(RegistrationFailedException ex){
-        return ResponseEntity.badRequest().body(
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 ErrorResponseDTO.builder()
                         .error(ex.getMessage())
                         .code(HttpStatus.SERVICE_UNAVAILABLE.value())
@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({BadCredentialsException.class, AuthenticationException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<ErrorResponseDTO> handleException(AuthenticationException ex){
-        return ResponseEntity.status(401).body(
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(
                 ErrorResponseDTO.builder()
                         .error(ex.getMessage())
                         .code(HttpStatus.UNAUTHORIZED.value())
