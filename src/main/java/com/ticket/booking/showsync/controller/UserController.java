@@ -44,12 +44,12 @@ public class UserController {
         throw new BadCredentialsException("Unauthorized to delete " + userName);
     }
 
-    @PutMapping("/updateUser/{id}")
-    public ResponseEntity<CustomResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO, Authentication authentication) {
+    @PutMapping("/updateUser/{userName}")
+    public ResponseEntity<CustomResponseDTO> updateUser(@PathVariable String userName, @RequestBody UserDTO userDTO, Authentication authentication) {
         String user = authentication.getName();
         if(user.equals(userDTO.getUserName())) {
-            return userService.updateUser(id, userDTO);
+            return userService.updateUser(userName, userDTO);
         }
-        throw new BadCredentialsException("Unauthorized to update " + user);
+        throw new BadCredentialsException("Unauthorized to update " + userDTO.getUserName());
     }
 }

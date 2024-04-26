@@ -50,7 +50,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User userObj = userMapper.userDTOToUser(user);
         userObj = userRepository.save(userObj);
-        if (userObj.getUserId() > 0) {
+        if (userObj.getUserId() != null) {
             return new ResponseEntity<>(user, HttpStatus.CREATED);
         } else {
             throw new RegistrationFailedException("Failed to create user");
@@ -92,8 +92,8 @@ public class UserService {
         return new ResponseEntity<>(customResponseDTO, HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<CustomResponseDTO> updateUser(Long id, UserDTO userDTO) {
-        Optional<User> user = userRepository.findById(id);
+    public ResponseEntity<CustomResponseDTO> updateUser(String userName, UserDTO userDTO) {
+        Optional<User> user = userRepository.findByUserName(userName);
         if (user.isPresent()) {
             User userObj = user.get();
             userObj.setFirstName(userDTO.getFirstName());
