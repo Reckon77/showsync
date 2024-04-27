@@ -40,8 +40,10 @@ public class UserService {
     @Autowired
     private AuthenticationManager manager;
 
+
     @Autowired
     private JwtService helper;
+
 
     public ResponseEntity<UserDTO> registerUser(UserDTO user) {
         if (userRepository.findByUserName(user.getUserName()).isPresent()) {
@@ -50,13 +52,15 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User userObj = userMapper.userDTOToUser(user);
         userObj = userRepository.save(userObj);
+        user.setPassword(null);
         if (userObj.getUserId() != null) {
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
+            return ResponseEntity.ok().body(user);
         } else {
             throw new RegistrationFailedException("Failed to create user");
         }
 
     }
+
 
     public ResponseEntity<JwtResponse> login(JwtRequest request) {
         Authentication authentication = manager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
