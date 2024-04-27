@@ -10,6 +10,7 @@ import com.ticket.booking.showsync.exceptions.ExistingUserException;
 import com.ticket.booking.showsync.exceptions.RegistrationFailedException;
 import com.ticket.booking.showsync.mapper.UserMapper;
 import com.ticket.booking.showsync.repository.UserRepository;
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -95,12 +96,12 @@ public class UserService {
         Optional<User> user = userRepository.findByUserName(userName);
         if (user.isPresent()) {
             User userObj = user.get();
-            userObj.setFirstName(userDTO.getFirstName());
-            userObj.setLastName(userDTO.getLastName());
-            userObj.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-            userObj.setUserName(userDTO.getUserName());
-            userObj.setLocation(userDTO.getLocation());
-            userObj.setDateOfBirth(userDTO.getDateOfBirth());
+            userObj.setFirstName(StringUtils.isEmpty(userDTO.getFirstName()) ? userObj.getFirstName() : userDTO.getFirstName());
+            userObj.setLastName(StringUtils.isEmpty(userDTO.getLastName()) ? userObj.getLastName() : userDTO.getLastName());
+            userObj.setPassword(StringUtils.isEmpty(userDTO.getPassword()) ? userObj.getPassword() : passwordEncoder.encode(userDTO.getPassword()));
+            userObj.setUserName(StringUtils.isEmpty(userDTO.getUserName()) ? userObj.getUserName() : userDTO.getUserName());
+            userObj.setLocation(StringUtils.isEmpty(userDTO.getLocation()) ? userObj.getLocation() : userDTO.getLocation());
+            userObj.setDateOfBirth(userDTO.getDateOfBirth() != null ? userDTO.getDateOfBirth() : userObj.getDateOfBirth());
             userRepository.save(userObj);
             CustomResponseDTO customResponseDTO = CustomResponseDTO.builder()
                     .message("User updated successfully!")

@@ -47,7 +47,7 @@ public class UserController {
     @PutMapping("/updateUser/{userName}")
     public ResponseEntity<CustomResponseDTO> updateUser(@PathVariable String userName, @RequestBody UserDTO userDTO, Authentication authentication) {
         String user = authentication.getName();
-        if(user.equals(userDTO.getUserName())) {
+        if(user.equals(userName)) {
             return userService.updateUser(userName, userDTO);
         }
         throw new BadCredentialsException("Unauthorized to update " + userDTO.getUserName());
