@@ -23,5 +23,7 @@ public class Seat {
     Screen screen;
     @Column(name = "seat_category_id")
     String seatCategoryId;
-
+    @OneToOne
+    @JoinColumn(name = "ticket_id")
+    MovieTicket ticket;
 }

@@ -11,6 +11,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -34,5 +36,6 @@ public class User {
     @NotNull(message = "Date of birth is required")
     @Past(message = "Date of birth must be in the past")
     private Date dateOfBirth;
-
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "user")
+    Set<MovieTicket> movieTicket = new HashSet<>();
 }

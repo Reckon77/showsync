@@ -6,26 +6,33 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "shows")
-public class Show {
+@Table(name = "movie_ticket")
+public class MovieTicket {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String showId;
-    private String language;
+    private String ticketId;
+    private String status;
+    private String price;
     private Date startTime;
     private Date endTime;
+    private String language;
     @ManyToOne
-    @JoinColumn(name = "theatre_id")
-    Theatre theatre;
+    @JoinColumn(name="user_id")
+    User user;
     @ManyToOne
     @JoinColumn(name="movie_id")
     Movie movie;
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "ticket")
+    Seat seat;
 
 }
