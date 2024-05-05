@@ -30,5 +30,8 @@ public class Theatre {
     @ManyToOne
     @JoinColumn(name = "location_id")
     Location location;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    User user;
 
 }
