@@ -39,4 +39,6 @@ public class User {
     private Date dateOfBirth;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "user")
     Set<MovieTicket> movieTicket = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "user")
+    Set<Theatre> theatres = new HashSet<>();
 }
