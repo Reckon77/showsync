@@ -20,11 +20,15 @@ public class Theatre {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String theatreId;
     private String name;
-    private String location;
+    //private String location;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "theatre")
     Set<Screen> screens = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "theatre")
     Set<Show> shows = new HashSet<>();
-
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "theatre")
+    Set<Movie> movies = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    Location location;
 
 }

@@ -30,4 +30,7 @@ public class Movie {
     Set<MovieTicket> movieTicket = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "movie")
     Set<Show> show = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "theatre_id")
+    Theatre theatre;
 }
