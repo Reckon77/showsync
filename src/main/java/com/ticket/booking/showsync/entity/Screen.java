@@ -19,6 +19,7 @@ public class Screen {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String screenId;
+    private String name;
     @ManyToOne
     @JoinColumn(name = "theatre_id")
     Theatre theatre;
