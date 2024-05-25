@@ -1,5 +1,6 @@
 package com.ticket.booking.showsync.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class Theatre {
     @ManyToOne
     @JoinColumn(name = "location_id")
     Location location;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="user_id")
     User user;

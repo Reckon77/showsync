@@ -43,53 +43,22 @@ public class TheatreService {
                 .map(screenDTO -> {
                     Screen screen = new Screen();
                     screen.setName(screenDTO.getName());
-//                    screen.setTheatre(theatre);
+                    //screen.setTheatre(theatre);
                     Set<SeatCategory> seatCategories = screenDTO.getSeatCategories().stream()
                                     .map(seatCategoryDTO -> {
                                         SeatCategory seatCategory = new SeatCategory();
                                         seatCategory.setName(seatCategoryDTO.getName());
                                         seatCategory.setCapacity(seatCategoryDTO.getCapacity());
                                         seatCategory.setPrice(seatCategoryDTO.getPrice());
-                                        seatCategory.setScreen(screen);
+                                        //seatCategory.setScreen(screen);
                                         return seatCategory;
                                     }).collect(Collectors.toSet());
                     screen.setSeatCategories(seatCategories);
                     return  screen;
                 }).collect(Collectors.toSet());
-////         Create a set to store screens
-//        Set<Screen> screens = new HashSet<>();
-//
-//// Iterate over each ScreenDTO
-//        for (ScreenDTO screenDTO : createTheatreDTO.getScreens()) {
-//            // Create a new Screen object
-//            Screen screen = new Screen();
-//            screen.setName(screenDTO.getName());
-////            screen.setTheatre(theatre);
-//
-//            // Create a set to store seat categories for this screen
-////            Set<SeatCategory> seatCategories = new HashSet<>();
-////
-////            // Iterate over each SeatCategoryDTO for this ScreenDTO
-////            for (SeatCategoryDTO seatCategoryDTO : screenDTO.getSeatCategories()) {
-////                // Create a new SeatCategory object
-////                SeatCategory seatCategory = new SeatCategory();
-////                seatCategory.setName(seatCategoryDTO.getName());
-////                seatCategory.setCapacity(seatCategoryDTO.getCapacity());
-////                seatCategory.setPrice(seatCategoryDTO.getPrice());
-////                seatCategory.setScreen(screen);
-////
-////                // Add the seat category to the set for this screen
-////                seatCategories.add(seatCategory);
-////            }
-////
-////            // Set the seat categories for this screen
-////            screen.setSeatCategories(seatCategories);
-//
-//            // Add the screen to the set of screens
-//            screens.add(screen);
-//        }
 
         theatre.setScreens(screens);
+        theatre.setUser(userObj);
         theatreRepository.save(theatre);
         return ResponseEntity.ok().body(theatre);
     }
