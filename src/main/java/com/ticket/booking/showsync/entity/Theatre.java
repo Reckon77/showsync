@@ -1,5 +1,6 @@
 package com.ticket.booking.showsync.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,9 +28,11 @@ public class Theatre {
     Set<Show> shows = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "theatre")
     Set<Movie> movies = new HashSet<>();
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "location_id")
     Location location;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="user_id")
     User user;
