@@ -50,7 +50,7 @@ public class TheatreService {
                                         seatCategory.setName(seatCategoryDTO.getName());
                                         seatCategory.setCapacity(seatCategoryDTO.getCapacity());
                                         seatCategory.setPrice(seatCategoryDTO.getPrice());
-                                        seatCategory.setScreen(screen);
+//                                        seatCategory.setScreen(screen);
                                         return seatCategory;
                                     }).collect(Collectors.toSet());
                     screen.setSeatCategories(seatCategories);
