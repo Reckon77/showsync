@@ -13,6 +13,11 @@ import java.util.Optional;
 
 @Repository
 public interface TheatreRepository extends JpaRepository<Theatre,String> {
+
+    Optional<Theatre> findByName(String theaterName);
+    List<Theatre> findAllByUser(User user);
+
 //    Optional<List<Theatre>> findByLocation(String location);
+
 
 }

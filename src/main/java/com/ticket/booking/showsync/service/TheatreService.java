@@ -80,8 +80,35 @@ public class TheatreService {
         return ResponseEntity.ok().body(theatre);
     }
 
+
+
+    public Optional<Theatre> getTheatre(String theatreName, String userName) {
+        Optional<User> user = userRepository.findByUserName(userName);
+        User userObj=null;
+        if(user.isPresent()){
+            userObj=user.get();
+        }else {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return theatreRepository.findByName(theatreName);
+    }
+
+    public Optional<List<Theatre>> getAllTheatre(String userName) {
+        Optional<User> user = userRepository.findByUserName(userName);
+        User userObj = null;
+        if(user.isPresent()){
+            userObj=user.get();
+        }
+        else{
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return Optional.of(theatreRepository.findAllByUser(userObj));
+    }
+
 //    public List<Theatre> getTheatreByLocation(String locationId) {
 //        Optional<List<Theatre>> theatres = theatreRepository.findByLocation(locationId);
 //        return theatres.orElse(Collections.emptyList());
 //    }
+
 }
