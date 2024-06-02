@@ -24,8 +24,8 @@ public class Location {
     @Column(unique = true)
     @NotBlank(message = "Location name is required")
     private String locationName;
-    @Pattern(regexp = "\\d{6}", message = "Pin code must be 6 digits")
-    @NotBlank(message = "Pin Code is required")
+    //@Pattern(regexp = "\\d{6}", message = "Pin code must be 6 digits")
+    //@NotBlank(message = "Pin Code is required")
     private int pinCode;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "location")
     Set<Theatre> theatres = new HashSet<>();

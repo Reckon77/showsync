@@ -13,5 +13,6 @@ import java.util.List;
 @Builder
 public class CreateTheatreDTO {
     private String name;
+    private AddressDTO address;
     private List<ScreenDTO> screens;
 }

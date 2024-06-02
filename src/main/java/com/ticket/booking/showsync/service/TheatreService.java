@@ -1,14 +1,10 @@
 package com.ticket.booking.showsync.service;
 
 import com.ticket.booking.showsync.dto.CreateTheatreDTO;
-import com.ticket.booking.showsync.entity.Screen;
-import com.ticket.booking.showsync.entity.SeatCategory;
-import com.ticket.booking.showsync.entity.Theatre;
-import com.ticket.booking.showsync.entity.User;
-import com.ticket.booking.showsync.repository.ScreenRepository;
-import com.ticket.booking.showsync.repository.SeatCategoryRepository;
-import com.ticket.booking.showsync.repository.TheatreRepository;
-import com.ticket.booking.showsync.repository.UserRepository;
+import com.ticket.booking.showsync.entity.*;
+import com.ticket.booking.showsync.exceptions.LocationNotFoundException;
+import com.ticket.booking.showsync.repository.*;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +25,8 @@ public class TheatreService {
 
     @Autowired
     private SeatCategoryRepository seatCategoryRepository;
+    @Autowired
+    private LocationRepository locationRepository;
 
     public ResponseEntity<Theatre> createTheatre(CreateTheatreDTO createTheatreDTO,String userName){
         Optional<User> user = userRepository.findByUserName(userName);
@@ -38,10 +36,22 @@ public class TheatreService {
         }else {
             throw new UsernameNotFoundException("User not found");
         }
+        // check if the city is present in location table if not throw exception
+        String city=createTheatreDTO.getAddress().getCity();
+        Optional<Location> location = locationRepository.findByLocationName(city);
+        if(location.isEmpty()){
+            throw new LocationNotFoundException(city+ "not found in the Location database");
+        }
+        val locationObj = location.get();
         Theatre theatre = Theatre.builder()
                 .name(createTheatreDTO.getName())
+                .city(city)
+                .longitide(createTheatreDTO.getAddress().getLongitude())
+                .latitude(createTheatreDTO.getAddress().getLatitude())
+                .pincode(createTheatreDTO.getAddress().getPincode())
+                .address(createTheatreDTO.getAddress().getAddress())
                 .build();
-
+        theatre.setLocation(locationObj);
         theatre.setUser(userObj);
         List<Screen> screens = createTheatreDTO.getScreens().stream()
                 .map(screenDTO -> {

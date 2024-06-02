@@ -22,6 +22,7 @@ public class LocationService {
         Optional<User> user = userRepository.findByUserName(userName);
         if(user.isEmpty()) throw new UsernameNotFoundException("User not found!");
         Location location = Location.builder()
+                .pinCode(createLocationDTO.getPinCode())
                 .locationName(createLocationDTO.getName()).build();
         locationRepository.save(location);
 
