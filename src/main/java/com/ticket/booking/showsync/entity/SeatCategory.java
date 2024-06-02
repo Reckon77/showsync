@@ -1,5 +1,6 @@
 package com.ticket.booking.showsync.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,8 @@ public class SeatCategory {
     private String name;
     private int capacity;
     private int price;
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "screen_id")
     Screen screen;
 
