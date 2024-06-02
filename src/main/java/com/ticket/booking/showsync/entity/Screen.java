@@ -1,5 +1,6 @@
 package com.ticket.booking.showsync.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,10 +20,12 @@ public class Screen {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String screenId;
-    @ManyToOne
+    private String name;
+    @JsonIgnore
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "theatre_id")
     Theatre theatre;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "screen")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "screen")
     Set<SeatCategory> seatCategories = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "screen")
     Set<Seat> seats = new HashSet<>();
