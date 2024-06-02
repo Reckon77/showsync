@@ -16,16 +16,15 @@ import java.util.Set;
 @Entity
 @Table(name = "movie")
 public class Movie {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String movieId;
     private String movieName;
     private String movieDesc;
     private String genre;
-    private String movieLength;
-    private String language;
-    private String rated;
+    private int movieLength;
+    private String language; //TODO : Change to ENUM
+    private String rated; //TODO : Change to ENUM
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "movie")
     Set<MovieTicket> movieTicket = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "movie")
