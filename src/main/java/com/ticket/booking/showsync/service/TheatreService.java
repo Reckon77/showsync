@@ -70,7 +70,8 @@ public class TheatreService {
         return ResponseEntity.ok().body(theatre);
     }
 
-    public List<Theatre> getTheatreByLocation(String locationId) {
-        return theatreRepository.findByLocationId(locationId);
-    }
+//    public List<Theatre> getTheatreByLocation(String locationId) {
+//        Optional<List<Theatre>> theatres = theatreRepository.findByLocation(locationId);
+//        return theatres.orElse(Collections.emptyList());
+//    }
 }
