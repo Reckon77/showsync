@@ -4,9 +4,9 @@ spring:
   application:
     name: showsync
   datasource:
-    password: Kikipipi@123
-    url: jdbc:mysql://193.203.184.29:3306/u122969380_showsync
-    username: u122969380_root
+    password:
+    url:
+    username:
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,5 +14,3 @@ spring:
     user:
       name: test
       password: test123
-
-#  mysql -u u122969380_root -P 3306 -h 193.203.184.29 -D u122969380_showsync -p

@@ -21,8 +21,7 @@ public class Theatre {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String theatreId;
     private String name;
-    //private String location;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "theatre")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "theatre")
     Set<Screen> screens = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "theatre")
     Set<Show> shows = new HashSet<>();

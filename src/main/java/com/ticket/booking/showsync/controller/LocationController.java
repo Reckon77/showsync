@@ -1,7 +1,6 @@
 package com.ticket.booking.showsync.controller;
 
 import com.ticket.booking.showsync.dto.CreateLocationDTO;
-import com.ticket.booking.showsync.dto.CreateTheatreDTO;
 import com.ticket.booking.showsync.entity.Location;
 import com.ticket.booking.showsync.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
