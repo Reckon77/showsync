@@ -5,7 +5,7 @@ spring:
     name: showsync
   datasource:
     password:
-    url: jdbc:mysql://localhost:3306/showsync
+    url:
     username:
   jpa:
     hibernate:

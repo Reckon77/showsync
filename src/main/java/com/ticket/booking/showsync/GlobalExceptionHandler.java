@@ -3,6 +3,7 @@ package com.ticket.booking.showsync;
 
 import com.ticket.booking.showsync.dto.ErrorResponseDTO;
 import com.ticket.booking.showsync.exceptions.ExistingUserException;
+import com.ticket.booking.showsync.exceptions.LocationNotFoundException;
 import com.ticket.booking.showsync.exceptions.RegistrationFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler({ExistingUserException.class,
-            MethodArgumentNotValidException.class})
+            MethodArgumentNotValidException.class,
+            LocationNotFoundException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErrorResponseDTO> handleException(Exception ex){
         return ResponseEntity.badRequest().body(
