@@ -1,5 +1,6 @@
 package com.ticket.booking.showsync.dto;
 
+import com.ticket.booking.showsync.entity.Theatre;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateTheatreDTO {
+public class CreateLocationDTO {
     private String name;
-    private AddressDTO address;
-    private List<ScreenDTO> screens;
+    private int pinCode;
+    private List<Theatre> theatres;
 }
