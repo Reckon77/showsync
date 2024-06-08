@@ -17,12 +17,10 @@ import java.util.Optional;
 public class TheatreService {
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private TheatreRepository theatreRepository;
     @Autowired
     private ScreenRepository screenRepository;
-
     @Autowired
     private SeatCategoryRepository seatCategoryRepository;
     @Autowired
@@ -40,7 +38,7 @@ public class TheatreService {
         String city=createTheatreDTO.getAddress().getCity();
         Optional<Location> location = locationRepository.findByLocationName(city);
         if(location.isEmpty()){
-            throw new LocationNotFoundException(city+ "not found in the Location database");
+            throw new LocationNotFoundException(city+ " not found in the location database");
         }
         val locationObj = location.get();
         Theatre theatre = Theatre.builder()
@@ -110,5 +108,13 @@ public class TheatreService {
 //        Optional<List<Theatre>> theatres = theatreRepository.findByLocation(locationId);
 //        return theatres.orElse(Collections.emptyList());
 //    }
+    public ResponseEntity<List<Theatre>> getAllTheatreByLocation(String id){
+        Optional<Location> location = locationRepository.findByLocationId(id);
+        if(location.isEmpty()){
+            throw new LocationNotFoundException(id+ " location not found in the location database");
+        }
+        Optional<List<Theatre>> theatres = theatreRepository.findByLocation_LocationId(id);
+        return ResponseEntity.ok().body(theatres.get());
+    }
 
 }

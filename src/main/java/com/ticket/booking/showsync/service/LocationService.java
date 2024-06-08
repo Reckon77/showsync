@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 @Service
 public class LocationService {
@@ -27,5 +29,8 @@ public class LocationService {
         locationRepository.save(location);
 
         return ResponseEntity.ok().body(location);
+    }
+    public ResponseEntity<List<Location>> getAllLocation(){
+        return ResponseEntity.ok().body(locationRepository.findAll());
     }
 }
