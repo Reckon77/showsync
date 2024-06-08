@@ -1,5 +1,6 @@
 package com.ticket.booking.showsync.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -27,6 +28,7 @@ public class Location {
     //@Pattern(regexp = "\\d{6}", message = "Pin code must be 6 digits")
     //@NotBlank(message = "Pin Code is required")
     private int pinCode;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "location")
     Set<Theatre> theatres = new HashSet<>();
 }

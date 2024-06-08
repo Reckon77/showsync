@@ -16,6 +16,7 @@ public interface TheatreRepository extends JpaRepository<Theatre,String> {
 
     Optional<Theatre> findByName(String theaterName);
     List<Theatre> findAllByUser(User user);
+    Optional<List<Theatre>> findByLocation_LocationId(String locationId);
 
 //    Optional<List<Theatre>> findByLocation(String location);
 

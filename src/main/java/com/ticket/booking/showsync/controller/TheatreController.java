@@ -2,6 +2,7 @@ package com.ticket.booking.showsync.controller;
 
 import com.ticket.booking.showsync.dto.CreateTheatreDTO;
 import com.ticket.booking.showsync.entity.Theatre;
+import com.ticket.booking.showsync.repository.TheatreRepository;
 import com.ticket.booking.showsync.service.TheatreService;
 import com.ticket.booking.showsync.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,11 @@ public class TheatreController {
         return theatreService.getAllTheatre(userName)
                 .map(ResponseEntity::ok)
                 .orElseGet(()->ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/theatre/{id}")
+    public ResponseEntity<List<Theatre>> getAllTheatreByLocation(@PathVariable("id") String id){
+        return theatreService.getAllTheatreByLocation(id);
     }
 
 }
