@@ -21,6 +21,7 @@ public class MovieService {
                 .rated(createMovieDTO.getRated())
                 .genre(createMovieDTO.getGenre())
                 .language(createMovieDTO.getLanguage())
+                .releaseDate(createMovieDTO.getReleaseDate())
                 .build();
         return ResponseEntity.ok().body(movieRepository.save(movie));
     }
