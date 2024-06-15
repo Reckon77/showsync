@@ -28,4 +28,6 @@ public class Screen {
     Set<SeatCategory> seatCategories = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "screen")
     Set<Seat> seats = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "screen")
+    Set<Show> shows = new HashSet<>();
 }

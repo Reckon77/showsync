@@ -27,5 +27,8 @@ public class Show {
     @ManyToOne
     @JoinColumn(name="movie_id")
     Movie movie;
+    @ManyToOne
+    @JoinColumn(name = "screen_id")
+    Screen screen;
 
 }
