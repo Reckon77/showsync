@@ -1,9 +1,13 @@
 package com.ticket.booking.showsync.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ticket.booking.showsync.dto.CreateTheatreDTO;
+import com.ticket.booking.showsync.dto.Slot;
 import com.ticket.booking.showsync.entity.*;
 import com.ticket.booking.showsync.exceptions.LocationNotFoundException;
 import com.ticket.booking.showsync.repository.*;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class TheatreService {
     @Autowired
     private UserRepository userRepository;
@@ -25,6 +30,8 @@ public class TheatreService {
     private SeatCategoryRepository seatCategoryRepository;
     @Autowired
     private LocationRepository locationRepository;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public ResponseEntity<Theatre> createTheatre(CreateTheatreDTO createTheatreDTO,String userName){
         Optional<User> user = userRepository.findByUserName(userName);
@@ -57,6 +64,7 @@ public class TheatreService {
                     screen.setName(screenDTO.getName());
                     // TODO : find a better approach
                     screen.setTheatre(theatre);
+                    screen.setSlots(convertToJsonString(screenDTO.getSlots()));
                     screenRepository.save(screen);
                     screen.setTheatre(null);
                     List<SeatCategory> seatCategories = screenDTO.getSeatCategories().stream()
@@ -115,6 +123,14 @@ public class TheatreService {
         }
         Optional<List<Theatre>> theatres = theatreRepository.findByLocation_LocationId(id);
         return ResponseEntity.ok().body(theatres.get());
+    }
+    private String convertToJsonString(Object object) {
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            log.error("Error while converting Object to Json String {}",e.getMessage());
+            return null;
+        }
     }
 
 }

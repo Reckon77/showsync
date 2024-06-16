@@ -20,6 +20,7 @@ public class Screen {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String screenId;
     private String name;
+    private String slots;
     @JsonIgnore
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "theatre_id")
