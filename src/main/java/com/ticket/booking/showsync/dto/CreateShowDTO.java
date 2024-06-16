@@ -5,14 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ScreenDTO {
-    private String name;
-    private List<Slot> slots;
-    private List<SeatCategoryDTO> seatCategories;
+public class CreateShowDTO {
+    private String movieId;
+    private String theatreId;
+    private String screenId;
+    private Date startTime;
+    private String language;
 }

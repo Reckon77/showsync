@@ -20,6 +20,7 @@ public class Screen {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String screenId;
     private String name;
+    private String slots;
     @JsonIgnore
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "theatre_id")
@@ -28,4 +29,6 @@ public class Screen {
     Set<SeatCategory> seatCategories = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "screen")
     Set<Seat> seats = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "screen")
+    Set<Show> shows = new HashSet<>();
 }
