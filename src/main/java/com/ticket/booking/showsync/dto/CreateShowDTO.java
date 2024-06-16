@@ -16,4 +16,5 @@ public class CreateShowDTO {
     private String theatreId;
     private String screenId;
     private Date startTime;
+    private String language;
 }
