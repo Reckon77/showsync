@@ -7,7 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -27,7 +29,7 @@ public class Theatre {
     private String longitide;
     private String address;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "theatre")
-    Set<Screen> screens = new HashSet<>();
+    List<Screen> screens = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "theatre")
     Set<Show> shows = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "theatre")

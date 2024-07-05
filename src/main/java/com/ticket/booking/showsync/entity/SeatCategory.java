@@ -24,8 +24,8 @@ public class SeatCategory {
     private int capacity;
     private int price;
     @JsonIgnore
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "screen_id")
+    @ManyToOne
+    @JoinColumn(name = "screen_id",referencedColumnName = "screenId")
     Screen screen;
 
 }
