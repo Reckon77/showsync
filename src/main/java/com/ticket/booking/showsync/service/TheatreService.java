@@ -62,11 +62,8 @@ public class TheatreService {
                 .map(screenDTO -> {
                     Screen screen = new Screen();
                     screen.setName(screenDTO.getName());
-                    // TODO : find a better approach
-                    screen.setTheatre(theatre);
                     screen.setSlots(convertToJsonString(screenDTO.getSlots()));
-                    screenRepository.save(screen);
-                    screen.setTheatre(null);
+                    screen.setTheatre(theatre);
                     List<SeatCategory> seatCategories = screenDTO.getSeatCategories().stream()
                             .map(seatCategoryDTO -> {
                                 SeatCategory seatCategory = new SeatCategory();
@@ -74,14 +71,12 @@ public class TheatreService {
                                 seatCategory.setCapacity(seatCategoryDTO.getCapacity());
                                 seatCategory.setPrice(seatCategoryDTO.getPrice());
                                 seatCategory.setScreen(screen);
-                                seatCategoryRepository.save(seatCategory);
-                                seatCategory.setScreen(null);
                                 return seatCategory;
                             }).toList();
-                    screen.setSeatCategories(new HashSet<>(seatCategories));
+                    screen.setSeatCategories(seatCategories);
                     return  screen;
                 }).toList();
-        theatre.setScreens(new HashSet<>(screens));
+        theatre.setScreens(screens);
         theatreRepository.save(theatre);
         return ResponseEntity.ok().body(theatre);
     }

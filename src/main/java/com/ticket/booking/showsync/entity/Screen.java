@@ -6,7 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -22,11 +25,11 @@ public class Screen {
     private String name;
     private String slots;
     @JsonIgnore
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "theatre_id")
+    @ManyToOne
+    @JoinColumn(name = "theatre_id",referencedColumnName = "theatreId")
     Theatre theatre;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "screen")
-    Set<SeatCategory> seatCategories = new HashSet<>();
+    List<SeatCategory> seatCategories = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "screen")
     Set<Seat> seats = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "screen")
