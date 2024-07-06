@@ -36,7 +36,7 @@ public class Theatre {
     Set<Movie> movies = new HashSet<>();
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "location_id")
+    @JoinColumn(name = "location_id",referencedColumnName = "locationId")
     Location location;
     @JsonIgnore
     @ManyToOne

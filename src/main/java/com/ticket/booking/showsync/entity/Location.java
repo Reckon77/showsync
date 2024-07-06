@@ -9,7 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -28,7 +30,6 @@ public class Location {
     //@Pattern(regexp = "\\d{6}", message = "Pin code must be 6 digits")
     //@NotBlank(message = "Pin Code is required")
     private int pinCode;
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "location")
-    Set<Theatre> theatres = new HashSet<>();
+    List<Theatre> theatres = new ArrayList<>();
 }
