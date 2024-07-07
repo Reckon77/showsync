@@ -1,5 +1,6 @@
 package com.ticket.booking.showsync.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,7 +33,7 @@ public class User {
     @NotBlank(message = "Password is required")
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
-    private String location;
+    private String locationName;
     private String role;
     @NotNull(message = "Date of birth is required")
     @Past(message = "Date of birth must be in the past")
@@ -41,4 +42,8 @@ public class User {
     Set<MovieTicket> movieTicket = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "user")
     Set<Theatre> theatres = new HashSet<>();
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "location_id",referencedColumnName = "locationId")
+    Location location;
 }

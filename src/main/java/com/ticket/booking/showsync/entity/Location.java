@@ -32,4 +32,6 @@ public class Location {
     private int pinCode;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "location")
     List<Theatre> theatres = new ArrayList<>();
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch =FetchType.LAZY,mappedBy = "location")
+    List<User> users = new ArrayList<>();
 }

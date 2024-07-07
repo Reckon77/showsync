@@ -29,7 +29,7 @@ public class UserDTO {
     @NotBlank(message = "Password is required")
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
-    private String location;
+    private String locationName;
     private String role;
     @NotNull(message = "Date of birth is required")
     @Past(message = "Date of birth must be in the past")

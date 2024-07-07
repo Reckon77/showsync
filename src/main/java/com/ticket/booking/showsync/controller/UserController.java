@@ -52,4 +52,9 @@ public class UserController {
         }
         throw new BadCredentialsException("Unauthorized to update " + userDTO.getUserName());
     }
+    @PatchMapping("/user/location/{locationId}")
+    public ResponseEntity<CustomResponseDTO> updateUserLocation(@PathVariable String locationId,Authentication authentication){
+        String user = authentication.getName();
+        return userService.updateUserLocation(user,locationId);
+    }
 }

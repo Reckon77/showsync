@@ -2,6 +2,7 @@ package com.ticket.booking.showsync.service;
 
 import com.ticket.booking.showsync.dto.CreateLocationDTO;
 import com.ticket.booking.showsync.entity.*;
+import com.ticket.booking.showsync.exceptions.LocationNotFoundException;
 import com.ticket.booking.showsync.repository.LocationRepository;
 import com.ticket.booking.showsync.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,12 @@ public class LocationService {
     }
     public ResponseEntity<List<Location>> getAllLocation(){
         return ResponseEntity.ok().body(locationRepository.findAll());
+    }
+    public Location getLoactionById(String locationId){
+        Optional<Location> location = locationRepository.findByLocationId(locationId);
+        if(location.isEmpty()){
+            throw new LocationNotFoundException(locationId+ " - locationID not found in the location database");
+        }
+        return location.get();
     }
 }

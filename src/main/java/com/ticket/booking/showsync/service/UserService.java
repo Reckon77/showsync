@@ -43,6 +43,8 @@ public class UserService {
 
     @Autowired
     private JwtService helper;
+    @Autowired
+    private LocationService locationService;
 
 
     public ResponseEntity<UserDTO> registerUser(UserDTO user) {
@@ -104,11 +106,28 @@ public class UserService {
             userObj.setLastName(StringUtils.isEmpty(userDTO.getLastName()) ? userObj.getLastName() : userDTO.getLastName());
             userObj.setPassword(StringUtils.isEmpty(userDTO.getPassword()) ? userObj.getPassword() : passwordEncoder.encode(userDTO.getPassword()));
             userObj.setUserName(StringUtils.isEmpty(userDTO.getUserName()) ? userObj.getUserName() : userDTO.getUserName());
-            userObj.setLocation(StringUtils.isEmpty(userDTO.getLocation()) ? userObj.getLocation() : userDTO.getLocation());
+            userObj.setLocationName(StringUtils.isEmpty(userDTO.getLocationName()) ? userObj.getLocationName() : userDTO.getLocationName());
             userObj.setDateOfBirth(userDTO.getDateOfBirth() != null ? userDTO.getDateOfBirth() : userObj.getDateOfBirth());
             userRepository.save(userObj);
             CustomResponseDTO customResponseDTO = CustomResponseDTO.builder()
                     .message("User updated successfully!")
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .build();
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.OK);
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
+    }
+    public ResponseEntity<CustomResponseDTO> updateUserLocation(String userName, String locationId){
+        Optional<User> user = userRepository.findByUserName(userName);
+        if (user.isPresent()) {
+            var location = locationService.getLoactionById(locationId);
+            var userObj = user.get();
+            userObj.setLocation(location);
+            userRepository.save(userObj);
+            CustomResponseDTO customResponseDTO = CustomResponseDTO.builder()
+                    .message("User location updated successfully!")
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
                     .build();
